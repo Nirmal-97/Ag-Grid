@@ -1,6 +1,7 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, ValueFormatterService } from 'ag-grid-community';
+import { CellRendererComponent } from 'ag-grid-community/dist/lib/components/framework/componentTypes';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -48,4 +49,22 @@ export class AppComponent implements OnInit {
     sortable: true,
     filter: true,
   };
+
+  gridOptions = {
+    colDef:[
+    {
+      field: 'priceChange',
+    },
+    // {
+    //   headerName: 'Price Change',
+    //   field: 'priceChange',
+    //   colDef.valueFormatter
+      
+    // }
+    ]
+  };
+
+  // colDef: any.valueFormatter = (params: { value: string; }) => {
+  //   return '@' + params.value;
+  // }
 }
