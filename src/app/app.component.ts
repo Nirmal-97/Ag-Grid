@@ -1,8 +1,9 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ColDef, ValueFormatterService } from 'ag-grid-community';
 import { CellRendererComponent } from 'ag-grid-community/dist/lib/components/framework/componentTypes';
 import { Observable } from 'rxjs';
+import { MyCellComponent } from './my-cell/my-cell.component';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
 
   colDefs: ColDef[] = [
     { field: 'symbol' },
-    { field: 'priceChange' },
+    { field: 'priceChange', cellRenderer: MyCellComponent},
     { field: 'priceChangePercent' },
     { field: 'weightedAvgPrice' },
     { field: 'prevClosePrice' },
@@ -37,34 +38,42 @@ export class AppComponent implements OnInit {
     { field: 'count' },
   ];
 
-  constructor(private http: HttpClient) {}
+  // private columnDefs = [
+  //   {
+  //     headerName: "Price Change",
+  //     field: 'priceChange',
+  //     cellRender: (params: { data: { priceChange: number; }; }) => params.data.priceChange.toFixed(2)
+  //   }
+  // ];
+
+  constructor(private http: HttpClient) {
+      var gridOptions = {
+        columnDefs: [
+          {
+            field: 'priceChange',
+          },
+
+          {
+            headerName: 'Price Change',
+            field: 'priceChange',
+            valueFormatter: (params: { data: { priceChange: any } }) =>
+              params.data.priceChange.toFixed(2),
+          },
+        ],
+      };
+  }
 
   ngOnInit() {
     this.rowData$ = this.http.get<any[]>(
       'https://api2.binance.com/api/v3/ticker/24hr'
-    );
+    );  
+    
+   
   }
+
 
   defaultColDef: ColDef = {
     sortable: true,
     filter: true,
   };
-
-  gridOptions = {
-    colDef:[
-    {
-      field: 'priceChange',
-    },
-    // {
-    //   headerName: 'Price Change',
-    //   field: 'priceChange',
-    //   colDef.valueFormatter
-      
-    // }
-    ]
-  };
-
-  // colDef: any.valueFormatter = (params: { value: string; }) => {
-  //   return '@' + params.value;
-  // }
 }
