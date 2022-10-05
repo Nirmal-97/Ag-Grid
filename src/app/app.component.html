@@ -2,6 +2,9 @@
     <h1>Price Chart</h1>
 </div>
 
+<button onclick="onBtnExport()" class="btn btn-primary">Download CSV export file</button>
+			
+
 <ag-grid-angular
 class="ag-theme-alpine-dark"
 style="width: 100%; height:700px;"
@@ -10,6 +13,7 @@ style="width: 100%; height:700px;"
 [defaultColDef] = "defaultColDef"
 [rowSelection]="'multiple'"
 [animateRows]="true"
+[contentEditable]="true"
 [pagination]="true"
 [paginationAutoPageSize]="true"
 >
