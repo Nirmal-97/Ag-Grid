@@ -47,20 +47,20 @@ export class AppComponent implements OnInit {
   // ];
 
   constructor(private http: HttpClient) {
-      var gridOptions = {
-        columnDefs: [
-          {
-            field: 'priceChange',
-          },
+      // var gridOptions = {
+      //   columnDefs: [
+      //     {
+      //       field: 'priceChange',
+      //     },
 
-          {
-            headerName: 'Price Change',
-            field: 'priceChange',
-            valueFormatter: (params: { data: { priceChange: any } }) =>
-              params.data.priceChange.toFixed(2),
-          },
-        ],
-      };
+      //     {
+      //       headerName: 'Price Change',
+      //       field: 'priceChange',
+      //       valueFormatter: (params: { data: { priceChange: any } }) =>
+      //         params.data.priceChange.toFixed(2),
+      //     },
+      //   ],
+      // };
   }
 
   ngOnInit() {
