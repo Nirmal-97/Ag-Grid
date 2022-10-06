@@ -4,7 +4,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'app-my-cell',
-  template: `₹ {{ value }}`,
+  template: `{{ value }}`,
   styles: [],
 })
 export class MyCellComponent implements OnInit, ICellRendererAngularComp {
@@ -12,7 +12,8 @@ export class MyCellComponent implements OnInit, ICellRendererAngularComp {
 
   constructor() {}
   agInit(params: ICellRendererParams<any, any>): void {
-    this.value = params.value;
+    console.log('params', typeof params.value);
+    this.value =  parseInt(params.value).toFixed(2);
   }
 
   refresh(params: ICellRendererParams<any, any>): boolean {

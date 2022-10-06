@@ -10,6 +10,9 @@
   },
   "private": true,
   "dependencies": {
+    "@ag-grid-community/client-side-row-model": "^28.2.0",
+    "@ag-grid-enterprise/excel-export": "^28.2.0",
+    "@ag-grid-enterprise/menu": "^28.2.0",
     "@angular/animations": "^14.1.0",
     "@angular/common": "^14.1.0",
     "@angular/compiler": "^14.1.0",
@@ -24,6 +27,7 @@
     "bootstrap": "^5.2.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

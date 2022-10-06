@@ -1,22 +1,27 @@
-import { formatCurrency, getCurrencySymbol } from '@angular/common';
-import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ColDef, GridOptions} from 'ag-grid-community';
-import { CellRendererComponent } from 'ag-grid-community/dist/lib/components/framework/componentTypes';
-import { filter, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  ICellRendererParams,
+  ValueFormatterParams,
+} from 'ag-grid-community';
+import { Observable } from 'rxjs';
 import { MyCellComponent } from './my-cell/my-cell.component';
-// import { CsvExportModule } from '@ag-grid-community/csv-export'; 
-
-
+import { IOlympicData } from './app.interface';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, GridOptions {
+export class AppComponent implements OnInit {
   title = 'ag-grid-task';
   rowData$!: Observable<any[]>;
+
+  private gridApi!: GridApi<IOlympicData>;
 
   colDefs: ColDef[] = [
     { field: 'symbol' },
@@ -28,57 +33,92 @@ export class AppComponent implements OnInit, GridOptions {
     {
       field: 'priceChangePercent',
       cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
     },
-    { field: 'weightedAvgPrice' },
-    { field: 'prevClosePrice' },
-    { field: 'lastPrice' },
-    { field: 'lastQty' },
-    { field: 'bidPrice' },
-    { field: 'bidQty' },
-    { field: 'askPrice' },
-    { field: 'askQty' },
-    { field: 'openPrice' },
-    { field: 'highPrice' },
-    { field: 'lowPrice' },
-    { field: 'volume' },
-    { field: 'quoteVolume' },
-    { field: 'openTime' },
-    { field: 'closeTime' },
-    { field: 'firstId' },
-    { field: 'lastId' },
-    { field: 'count' },
+    {
+      field: 'weightedAvgPrice',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+    },
+    {
+      field: 'prevClosePrice',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+    },
+    {
+      field: 'lastPrice',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+    },
+    {
+      field: 'lastQty',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+    },
+    {
+      field: 'bidPrice',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+    },
+    { field: 'bidQty', cellClass: 'ag-right-aligned-cell' },
+    { field: 'askPrice', cellClass: 'ag-right-aligned-cell' },
+    {
+      field: 'askQty',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+    },
+    { field: 'openPrice', cellClass: 'ag-right-aligned-cell' },
+    { field: 'highPrice', cellClass: 'ag-right-aligned-cell' },
+    { field: 'lowPrice', cellClass: 'ag-right-aligned-cell' },
+    {
+      field: 'volume',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+    },
+    { field: 'quoteVolume', cellClass: 'ag-right-aligned-cell' },
+    { field: 'openTime', cellClass: 'ag-right-aligned-cell' },
+    { field: 'closeTime', cellClass: 'ag-right-aligned-cell' },
+    { field: 'firstId', cellClass: 'ag-right-aligned-cell' },
+    { field: 'lastId', cellClass: 'ag-right-aligned-cell' },
+    { field: 'count', cellClass: 'ag-right-aligned-cell' },
   ];
+
+  public rowData!: IOlympicData[];
 
   constructor(public http: HttpClient) {}
 
-  ngOnInit() {
-    this.rowData$ = this.http.get<any[]>(
-      'https://api2.binance.com/api/v3/ticker/24hr'
-    );
+  onBtExport() {
+    this.gridApi.exportDataAsExcel();    
   }
+
+  onGridReady(params: GridReadyEvent<IOlympicData>) {
+    this.gridApi = params.api;
+
+    this.http
+      .get<IOlympicData[]>('https://api2.binance.com/api/v3/ticker/24hr')
+      .subscribe((data) => {
+        this.rowData = data;
+      });
+  }
+
+  ngOnInit() {}
 
   defaultColDef: ColDef = {
     sortable: true,
     filter: true,
     editable: true,
+    floatingFilter: true,
+    resizable: true,
   };
 
-  GridOptions = {
-    colDefs: [
-      // {
-      //   field: 'priceChange',
-      // },
-      {
-        headerName: 'Price Change',
-        field: 'priceChange',
-        cellRenderer: (params: any) => params.data.priceChange.toFixed(2),
-      },
-    ],
-  };
-
-//   function onBtnExport() {
-//   .api!.exportDataAsCsv();
-// }
-
-};
-
+  // gridOptions = {
+  //   colDefs: [
+  //     { field: 'priceChange' },
+  //     {
+  //       headerName: 'Price Chnage',
+  //       field: 'priceChange',
+  //       valueFormatter: (params: ValueFormatterParams) => parseInt(params.value).toFixed(2)
+  //     },
+  //   ],
+  // };
+}
