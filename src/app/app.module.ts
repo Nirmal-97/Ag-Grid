@@ -10,7 +10,8 @@ import { ExcelExportModule } from '@ag-grid-enterprise/excel-export';
 import { ModuleRegistry } from '@ag-grid-community/core';
 import { MenuModule } from '@ag-grid-enterprise/menu';
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
-import { CsvExportModule } from '@ag-grid-community/csv-export';
+import { CsvExportModule } from '@ag-grid-community/csv-export'
+import { SparklinesModule } from '@ag-grid-enterprise/sparklines';
 
 
 ModuleRegistry.registerModules([
@@ -18,6 +19,7 @@ ModuleRegistry.registerModules([
   CsvExportModule,
   ExcelExportModule,
   MenuModule,
+  SparklinesModule,
 ]);
 
 @NgModule({

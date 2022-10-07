@@ -2,21 +2,57 @@
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-alpine.css';
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import url("https://fonts.googleapis.com/css?family=Gelasio&display=swap");
 
 
 
 body{
-    background-color:black;
+    background-color:black !important;
 }
 
-.header-card{
-    background-color:chocolate;
-    padding-top: 10px;
-    padding-bottom: 5px;
+
+* { box-sizing: border-box; }
+
+body,
+html { overflow-x: hidden; }
+
+.bar {
+  position: relative;
+  top: 5 !important;
+  left: 0;
+
+  width: 100%;
+  padding: 10px 0;
+
+  background-color: chocolate;
+  color: white;
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+.bar_content {
+  display: block; /* Important to give the content a width */
+
+  width: 100%;
+  transform: translateX(100%); /* Animation start out of the screen */
+
+  /* Add the animation */
+  animation: move 30s linear infinite /* infinite make reapeat the animation indefinitely */;
+}
+
+/* Create the animation */
+@keyframes move {
+  to { transform: translateX(-100%); }
+}
+
+.nav-head{
+    color:chocolate !important;
+    font-size: 24px !important;
+    font-weight: bold;
 }
 
 h1{
-    margin-left: 20px;
+    margin-left: 5px;
     color: white;
     font-family: sans-serif;
 }
@@ -27,6 +63,6 @@ h1{
     font-weight: bold;
 }
 
-button {
-    margin-left: 2px;
+.btn {
+    margin-left: 5px;
 }

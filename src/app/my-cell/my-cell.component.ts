@@ -12,7 +12,7 @@ export class MyCellComponent implements OnInit, ICellRendererAngularComp {
 
   constructor() {}
   agInit(params: ICellRendererParams<any, any>): void {
-    console.log('params', typeof params.value);
+    // console.log('params', typeof params.value);
     this.value =  parseInt(params.value).toFixed(2);
   }
 

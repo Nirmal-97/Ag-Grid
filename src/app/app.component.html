@@ -1,9 +1,48 @@
-<div class="header-card">
-    <h1>Price Chart</h1>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand nav-head" href="#">Price List</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
+        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+        <button (click) = "onBtExport()" class="btn btn-success mt-4 mb-4">Export To Excel</button>
+      </form>
+    </div>
+  </div>
+</nav>
 </div>
-
-<button (click) = "onBtExport()" class="btn btn-success mt-2 mb-2">Export To Excel</button>
 			
+ <div class="bar">
+   <span class="bar_content">
+   Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum sequi asperiores nulla error, reprehenderit ut! Laboriosam nobis corrupti delectus alias sit, omnis amet fugit aliquam. Maiores corrupti provident eaque odit? 
+   </span>
+ </div>
 
 <ag-grid-angular
 class="ag-theme-alpine-dark"
@@ -13,8 +52,16 @@ style="width: 100%; height:700px;"
 [defaultColDef] = "defaultColDef"
 [rowSelection]="'multiple'"
 [animateRows]="true"
+[rowMultiSelectWithClick]="true"
 [contentEditable]="true"
 [pagination]="true"
+[sideBar]="true"
+[statusBar]=""
+[enableRangeSelection]="true"
+[enableCharts]="true"
+[chartThemeOverrides]="chartThemeOverrides"
+[getChartToolbarItems]="getChartToolbarItems"
+[rowGroupPanelShow]="'always'"
 [paginationAutoPageSize]="true"
 (gridReady)="onGridReady($event)"
 >

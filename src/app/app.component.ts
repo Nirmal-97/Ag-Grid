@@ -1,16 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
+  AgChartThemeOverrides,
+  ChartMenuOptions,
   ColDef,
+  CreateRangeChartParams,
+  FirstDataRenderedEvent,
   GridApi,
-  GridOptions,
   GridReadyEvent,
-  ICellRendererParams,
-  ValueFormatterParams,
 } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 import { MyCellComponent } from './my-cell/my-cell.component';
 import { IOlympicData } from './app.interface';
+import 'ag-grid-enterprise';
+
 
 @Component({
   selector: 'app-root',
@@ -22,65 +25,120 @@ export class AppComponent implements OnInit {
   rowData$!: Observable<any[]>;
 
   private gridApi!: GridApi<IOlympicData>;
+  public popupParent: HTMLElement | null = document.body;
 
   colDefs: ColDef[] = [
-    { field: 'symbol' },
+    { field: 'symbol', chartDataType: 'category' },
     {
       field: 'priceChange',
       cellRenderer: MyCellComponent,
       cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
     },
     {
       field: 'priceChangePercent',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
     {
       field: 'weightedAvgPrice',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
     {
       field: 'prevClosePrice',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
     {
       field: 'lastPrice',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
     {
       field: 'lastQty',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
     {
       field: 'bidPrice',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
-    { field: 'bidQty', cellClass: 'ag-right-aligned-cell' },
-    { field: 'askPrice', cellClass: 'ag-right-aligned-cell' },
+    {
+      field: 'bidQty',
+      cellClass: 'ag-right-aligned-cell',
+      cellRenderer: MyCellComponent,
+      chartDataType: 'series',
+    },
+    {
+      field: 'askPrice',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
     {
       field: 'askQty',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
-    { field: 'openPrice', cellClass: 'ag-right-aligned-cell' },
-    { field: 'highPrice', cellClass: 'ag-right-aligned-cell' },
-    { field: 'lowPrice', cellClass: 'ag-right-aligned-cell' },
+    {
+      field: 'openPrice',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
+    {
+      field: 'highPrice',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
+    {
+      field: 'lowPrice',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
     {
       field: 'volume',
       cellClass: 'ag-right-aligned-cell',
       cellRenderer: MyCellComponent,
+      chartDataType: 'series',
     },
-    { field: 'quoteVolume', cellClass: 'ag-right-aligned-cell' },
-    { field: 'openTime', cellClass: 'ag-right-aligned-cell' },
-    { field: 'closeTime', cellClass: 'ag-right-aligned-cell' },
-    { field: 'firstId', cellClass: 'ag-right-aligned-cell' },
-    { field: 'lastId', cellClass: 'ag-right-aligned-cell' },
-    { field: 'count', cellClass: 'ag-right-aligned-cell' },
+    {
+      field: 'quoteVolume',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
+    {
+      field: 'openTime',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
+    {
+      field: 'closeTime',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
+    {
+      field: 'firstId',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
+    {
+      field: 'lastId',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
+    {
+      field: 'count',
+      cellClass: 'ag-right-aligned-cell',
+      chartDataType: 'series',
+    },
   ];
 
   public rowData!: IOlympicData[];
@@ -88,7 +146,7 @@ export class AppComponent implements OnInit {
   constructor(public http: HttpClient) {}
 
   onBtExport() {
-    this.gridApi.exportDataAsExcel();    
+    this.gridApi.exportDataAsExcel();
   }
 
   onGridReady(params: GridReadyEvent<IOlympicData>) {
@@ -109,7 +167,61 @@ export class AppComponent implements OnInit {
     editable: true,
     floatingFilter: true,
     resizable: true,
+    enableRowGroup: true,
   };
+
+  public chartThemeOverrides: AgChartThemeOverrides = {
+    pie: {
+      title: {
+        enabled: true,
+        text: 'Precious Metals Production',
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: 'rgb(100, 100, 100)',
+      },
+      subtitle: {
+        enabled: true,
+        text: 'by country',
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: 'rgb(100, 100, 100)',
+      },
+      padding: {
+        top: 25,
+        right: 20,
+        bottom: 55,
+        left: 20,
+      },
+      legend: {
+        enabled: false,
+      },
+      series: {
+        label: {
+          enabled: true,
+        },
+        callout: {
+          length: 20,
+        },
+      },
+    },
+  };
+
+  onFirstDataRendered(params: FirstDataRenderedEvent) {
+    var createRangeChartParams: CreateRangeChartParams = {
+      cellRange: {
+        rowStartIndex: 0,
+        rowEndIndex: 5,
+        columns: ['country', 'gold'],
+      },
+      chartType: 'pie',
+    };
+    params.api.createRangeChart(createRangeChartParams);
+  }
+
+  getChartToolbarItems(): ChartMenuOptions[] {
+    return ['chartDownload', 'chartData', 'chartSettings'];
+  }
 
   // gridOptions = {
   //   colDefs: [
@@ -122,3 +234,4 @@ export class AppComponent implements OnInit {
   //   ],
   // };
 }
+
